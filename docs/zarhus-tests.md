@@ -117,6 +117,9 @@ robot -v boot_dts_from_ipxe_shell:True \
     -v dts_ipxe_link:https://boot.dasharo.com/dts/dts-rc.ipxe
 ```
 
+Be patient when running tests, especially when testing ZPB as Suite Setup can
+take a while. It installs and prepares Zarhus OS
+
 ### Future improvements
 
 Make each test start from the same state. As of now, each tests might modify
@@ -132,6 +135,8 @@ On QEMU it's possible to create copy of prepared Zarhus OS during suite setup
 On hardware, it might be unreasonable to flash/clone Zarhus OS for every test
 
 ### QEMU
+
+Zarhus Provisioning Box tests don't support QEMU. For Zarhus OS:
 
 1. Run QEMU
 
@@ -162,7 +167,29 @@ On hardware, it might be unreasonable to flash/clone Zarhus OS for every test
 
 ### Hardware
 
-TODO: not yet supported or tested.
+#### Zarhus OS
+
+Example test run that succeeded:
+
+```sh
+robot -L TRACE -b cmd_logs.txt -v rte_ip:192.168.10.168 -v config:odroid-h4-plus -v snipeit:no \
+    -v boot_dts_from_ipxe_shell:True \
+    -v dts_ipxe_link:https://boot.dasharo.com/dts/dts-rc.ipxe \
+    -v features:encryption,otab \
+    -v zarhus_wic_gz_file:../zarhus-base-image-genericx86-64.rootfs.wic.gz \
+    -v target_device:nvme0n1 -t "ZHS001*" zarhus-x86/zarhus.robot
+```
+
+#### Zarhus Provisioning Box
+
+Example command:
+
+```sh
+robot -L TRACE -b cmd_logs.txt -v rte_ip:192.168.10.168 -v config:odroid-h4-plus -v snipeit:no -v boot_dts_from_ipxe_shell:True \
+    -v dts_ipxe_link:https://boot.dasharo.com/dts/dts-rc.ipxe \
+    -v zarhus_bootstrap_file:../yocto/zarhus-dtrpb/bootstrap.img \
+    zarhus-x86/zarhus-provisioning-preparation.robot
+```
 
 ### Test Variables
 
@@ -189,3 +216,8 @@ tests you want to run.
     be used to flash Zarhus OS to.
 - `zarhus_swu_file` - path to `.swu` file, used for otab updates, needed by some
     update tests.
+
+### ZPB variables
+
+- `zarhus_bootstrap_file` - path do bootstrap image (uncompressed) that'll be
+    flashed directly to USB
