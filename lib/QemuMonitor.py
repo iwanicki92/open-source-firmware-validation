@@ -156,7 +156,7 @@ class QemuMonitor:
             "driver": "usb-storage",
             "id": self._usb_devid(name),  # "usbdisk",
             "drive": self._usb_nodename(name),
-            "removable": "on" if removable else "off",
+            "removable": removable,
         }
         self._send_cmd("device_add", **usb_storage_params)
 

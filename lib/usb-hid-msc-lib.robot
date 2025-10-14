@@ -96,7 +96,7 @@ Get First USB Stick In Linux
         # Removable USB storage (size > 0), that is not partition
         VAR    ${command}=
         ...    test ! -f "/sys/class/block/${device}/partition"
-        ...    test "\$(cat /sys/class/block/${device}/size)"
+        ...    test "\$(cat /sys/class/block/${device}/size)" -gt 0
         ...    cat "/sys/class/block/${device}/removable"
         ...    separator=${SPACE}\&\&${SPACE}
         ${removable}=    Execute Command In Terminal    ${command}

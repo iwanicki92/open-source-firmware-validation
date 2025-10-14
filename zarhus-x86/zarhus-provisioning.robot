@@ -16,7 +16,11 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Prepare ZPB OS
-Suite Teardown      Run Keyword
+...                     AND
+...                     Setup ZPB
+Suite Teardown      Run Keywords
+...                     Teardown ZPB Test Suite
+...                     AND
 ...                     Log Out And Close Connection
 Test Setup          Run Keyword If    ${TESTS_IN_FIRMWARE_SUPPORT}
 ...                     Restore Initial DUT Connection Method
